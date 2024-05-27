@@ -37,10 +37,51 @@
         </header>
         <!-- Main page content-->
         <div class="container-xl px-4 mt-n10">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <!-- Billing card 1-->
+                    <div class="card h-100 border-start-lg border-start-teal">
+                        <div class="card-body">
+                            <div class="small text-muted">Entradas do mês atual</div>
+                            <div class="h3">R$ {{ number_format($entrada, 2, ',', '.') }}</div>
+                            <a class="text-arrow-icon small text-teal" href="#!">
+                                Ver histórico de entradas
+                                <i data-feather="arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <!-- Billing card 2-->
+                    <div class="card h-100 border-start-lg border-start-danger">
+                        <div class="card-body">
+                            <div class="small text-muted">Saídas do mês atual</div>
+                            <div class="h3">R$ {{ number_format($saida, 2, ',', '.') }}</div>
+                            <a class="text-arrow-icon small text-danger" href="#!">
+                                Ver histórico de saídas
+                                <i data-feather="arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <!-- Billing card 3-->
+                    <div class="card h-100 border-start-lg border-start-success">
+                        <div class="card-body">
+                            <div class="small text-muted">Saldo total</div>
+                            <div class="h3 d-flex align-items-center">R$ {{ number_format($valor, 2, ',', '.') }}</div>
+                            <a class="text-arrow-icon small text-success" href="#!">
+                                Ver detalhes do saldo
+                                <i data-feather="arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card mb-4">
                 <div class="card-header">Extended DataTables</div>
                 <div class="card-body">
-                    <table  style="overflow-x:auto;" id="datatablesSimple">
+                    <table  style="overflow-x:auto;" id="datatablesSimple" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Nº do Lançamento</th>
@@ -102,6 +143,20 @@
             </div>
         </div>
     </main>
+
+    <!-- Inicialização do DataTable -->
+    <script>
+        $(document).ready(function() {
+            $('#datatablesSimple').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print', 'colvis'
+                ],
+                // Adicione aqui as outras opções desejadas
+            });
+        });
+        </script>
+
 
 
 

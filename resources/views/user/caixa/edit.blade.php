@@ -35,7 +35,7 @@
             </ol>
         </nav>
         <hr class="mt-0 mb-4" />
-        <form action="{{route('user.caixa.update', $caixa->id)}}" method="POST">
+        <form action="{{ route('user.caixa.update', $caixa->id) }}" method="POST">
             @csrf
             @method('put')
             <div class="row">
@@ -76,14 +76,16 @@
                                             <label class="small mb-1" for="inputFirstName">Data do
                                                 Lançamento:</label>
                                             <input class="form-control" id="data" name="data" type="date"
-                                                placeholder="Enter your first name" value="{{$caixa->data}}" />
+                                                placeholder="Enter your first name" value="{{ $caixa->data }}" />
                                         </div>
                                         <!-- Form Group (last name)-->
                                         <div class="col-md-2">
                                             <label class="small mb-1" for="inputLastName">Entrada/Saída</label>
                                             <select class="form-control" name="tipo" id="tipo">
-                                                <option value="entrada" {{ $caixa->tipo == 'entrada' ? 'selected' : '' }}>Entrada</option>
-                                                <option value="saida" {{ $caixa->tipo == 'saida' ? 'selected' : '' }}>Saída</option>
+                                                <option value="entrada" {{ $caixa->tipo == 'entrada' ? 'selected' : '' }}>
+                                                    Entrada</option>
+                                                <option value="saida" {{ $caixa->tipo == 'saida' ? 'selected' : '' }}>Saída
+                                                </option>
                                             </select>
                                         </div>
 
@@ -104,21 +106,51 @@
                                         <div class="col-md-4">
                                             <label class="small mb-1" for="inputPhone">Tipo de Documento</label>
                                             <select class="form-select " name="tipo_documento" id="tipo_documento">
-                                                <option value="OUTR - Dafe" {{ $caixa->tipo_documento == 'OUTR - Dafe' ? 'selected' : '' }}>OUTR - Dafe</option>
-                                                <option value="NF - Nota Fiscal" {{ $caixa->tipo_documento == 'NF - Nota Fiscal' ? 'selected' : '' }}>NF - Nota Fiscal</option>
-                                                <option value="DANF - Danfe" {{ $caixa->tipo_documento == 'DANF - Danfe' ? 'selected' : '' }}>DANF - Danfe</option>
-                                                <option value="BOL - Boleto" {{ $caixa->tipo_documento == 'BOL - Boleto' ? 'selected' : '' }}>BOL - Boleto</option>
-                                                <option value="REP - Repasse" {{ $caixa->tipo_documento == 'REP - Repasse' ? 'selected' : '' }}>REP - Repasse</option>
-                                                <option value="CCRD - Cartão de Credito" {{ $caixa->tipo_documento == 'CCRD - Cartão de Credito' ? 'selected' : '' }}>CCRD - Cartão de Credito</option>
-                                                <option value="CDBT - Cartào de Debito" {{ $caixa->tipo_documento == 'CDBT - Cartào de Debito' ? 'selected' : '' }}>CDBT - Cartào de Debito</option>
-                                                <option value="CH - Cheque" {{ $caixa->tipo_documento == 'CH - Cheque' ? 'selected' : '' }}>CH - Cheque</option>
-                                                <option value="REC - Recibo" {{ $caixa->tipo_documento == 'REC - Recibo' ? 'selected' : '' }}>REC - Recibo</option>
-                                                <option value="CARN - Carnê" {{ $caixa->tipo_documento == 'CARN - Carnê' ? 'selected' : '' }}>CARN - Carnê</option>
-                                                <option value="FAT - Fatura" {{ $caixa->tipo_documento == 'FAT - Fatura' ? 'selected' : '' }}>FAT - Fatura</option>
-                                                <option value="APOL - Apólice" {{ $caixa->tipo_documento == 'APOL - Apólice' ? 'selected' : '' }}>APOL - Apólice</option>
-                                                <option value="DUPL - Duplicata" {{ $caixa->tipo_documento == 'DUPL - Duplicata' ? 'selected' : '' }}>DUPL - Duplicata</option>
-                                                <option value="TRIB - Tribunal" {{ $caixa->tipo_documento == 'TRIB - Tribunal' ? 'selected' : '' }}>TRIB - Tribunal</option>
-                                                <option value="T Banc - Transferêrencia Bancaria" {{ $caixa->tipo_documento == 'T Banc - Transferêrencia Bancaria' ? 'selected' : '' }}>T Banc - Transferêrencia Bancaria</option>
+                                                <option value="OUTR - Dafe"
+                                                    {{ $caixa->tipo_documento == 'OUTR - Dafe' ? 'selected' : '' }}>OUTR -
+                                                    Dafe</option>
+                                                <option value="NF - Nota Fiscal"
+                                                    {{ $caixa->tipo_documento == 'NF - Nota Fiscal' ? 'selected' : '' }}>NF
+                                                    - Nota Fiscal</option>
+                                                <option value="DANF - Danfe"
+                                                    {{ $caixa->tipo_documento == 'DANF - Danfe' ? 'selected' : '' }}>DANF -
+                                                    Danfe</option>
+                                                <option value="BOL - Boleto"
+                                                    {{ $caixa->tipo_documento == 'BOL - Boleto' ? 'selected' : '' }}>BOL -
+                                                    Boleto</option>
+                                                <option value="REP - Repasse"
+                                                    {{ $caixa->tipo_documento == 'REP - Repasse' ? 'selected' : '' }}>REP -
+                                                    Repasse</option>
+                                                <option value="CCRD - Cartão de Credito"
+                                                    {{ $caixa->tipo_documento == 'CCRD - Cartão de Credito' ? 'selected' : '' }}>
+                                                    CCRD - Cartão de Credito</option>
+                                                <option value="CDBT - Cartào de Debito"
+                                                    {{ $caixa->tipo_documento == 'CDBT - Cartào de Debito' ? 'selected' : '' }}>
+                                                    CDBT - Cartào de Debito</option>
+                                                <option value="CH - Cheque"
+                                                    {{ $caixa->tipo_documento == 'CH - Cheque' ? 'selected' : '' }}>CH -
+                                                    Cheque</option>
+                                                <option value="REC - Recibo"
+                                                    {{ $caixa->tipo_documento == 'REC - Recibo' ? 'selected' : '' }}>REC -
+                                                    Recibo</option>
+                                                <option value="CARN - Carnê"
+                                                    {{ $caixa->tipo_documento == 'CARN - Carnê' ? 'selected' : '' }}>CARN -
+                                                    Carnê</option>
+                                                <option value="FAT - Fatura"
+                                                    {{ $caixa->tipo_documento == 'FAT - Fatura' ? 'selected' : '' }}>FAT -
+                                                    Fatura</option>
+                                                <option value="APOL - Apólice"
+                                                    {{ $caixa->tipo_documento == 'APOL - Apólice' ? 'selected' : '' }}>APOL
+                                                    - Apólice</option>
+                                                <option value="DUPL - Duplicata"
+                                                    {{ $caixa->tipo_documento == 'DUPL - Duplicata' ? 'selected' : '' }}>
+                                                    DUPL - Duplicata</option>
+                                                <option value="TRIB - Tribunal"
+                                                    {{ $caixa->tipo_documento == 'TRIB - Tribunal' ? 'selected' : '' }}>
+                                                    TRIB - Tribunal</option>
+                                                <option value="T Banc - Transferêrencia Bancaria"
+                                                    {{ $caixa->tipo_documento == 'T Banc - Transferêrencia Bancaria' ? 'selected' : '' }}>
+                                                    T Banc - Transferêrencia Bancaria</option>
                                             </select>
                                         </div>
                                         <!-- Form Group (birthday)-->
@@ -126,7 +158,7 @@
                                             <label class="small mb-1" for="inputBirthday">Numero Documento</label>
                                             <input class="form-control" id="num_documento" name="num_documento"
                                                 type="text" name="birthday" required placeholder="Entre com o número"
-                                                value="{{$caixa->num_documento}}" />
+                                                value="{{ $caixa->num_documento }}" />
                                         </div>
 
                                         <div class="col-md-4">
@@ -135,7 +167,9 @@
                                             <div class="input-group input-group-joined">
                                                 <span class="input-group-text">R$</span>
                                                 <input class="form-control ps-0" type="text" id="valor"
-                                                    name="valor" value=" {{ number_format($caixa->valor, 2, ',', '.') }}" required placeholder="valor" aria-label="">
+                                                    name="valor"
+                                                    value=" {{ number_format($caixa->valor, 2, ',', '.') }}" required
+                                                    placeholder="valor" aria-label="">
                                             </div>
                                         </div>
                                     </div>
@@ -143,11 +177,7 @@
                                         <div class="col-md-12">
                                             <label class="small mb-1" for="inputLastName">Histórico
                                                 complementar</label>
-                                            <textarea class="form-control"
-                                                        name="complemento"
-                                                        id="complemento"
-                                                        cols="20"
-                                                        rows="3">{{$caixa->complemento}}</textarea>
+                                            <textarea class="form-control" name="complemento" id="complemento" cols="20" rows="3">{{ $caixa->complemento }}</textarea>
                                         </div>
                                     </div>
                                     <!-- Save changes button-->
@@ -157,8 +187,12 @@
                                     aria-labelledby="activities-pill">
                                     <div class="mb-3">
                                         <label for="formFileLg" class="form-label">Adicionar NF</label>
-                                        <input name="fileUpdate" class="form-control form-control-lg" id="fileUpdate"
-                                               type="file" value="{{$caixa->fileupdate->path}}">
+                                        @if ($caixa->fileupdate->isNotEmpty())
+                                            <input name="fileUpdate" class="form-control form-control-lg" id="fileUpdate" type="file" value="{{ $caixa->fileupdate->first()->path }}">
+                                            <a href="{{ $caixa->fileupdate->first()->path }}">{{$caixa->fileupdate->first()->name}}</a>
+                                        @else
+                                            <p>Nenhum arquivo anexado.</p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -178,14 +212,14 @@
                 <div class="card-body">
                     <div class="small text-muted">Saldo em Conta</div>
                     <div class="h3">R$ {{ number_format($valor, 2, ',', '.') }}</div>
-                    <a class="text-arrow-icon small" href="{{route('caixa.list')}}">
+                    <a class="text-arrow-icon small" href="{{ route('caixa.list') }}">
                         Exibir Todos dos registros
                         <i data-feather="arrow-right"></i>
                     </a>
                     <hr />
 
                     <label class="small mb-1" for="inputNotificationEmail">N° lançamento</label>
-                    <input class="form-control" id="inputNotificationEmail" type="email" value="{{$caixa->id}}"
+                    <input class="form-control" id="inputNotificationEmail" type="email" value="{{ $caixa->id }}"
                         disabled />
                 </div>
             </div>

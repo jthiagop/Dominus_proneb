@@ -27,7 +27,11 @@ class CaixaController extends Controller
             ->select('caixas.*') // Seleciona apenas o campo valor da tabela caixa
             ->get();
 
-        return view('user.caixa.list', compact('caixas'));
+            list($somaEntradas, $somaSaida) = caixa::getCaixa();
+
+            $valor = $somaEntradas - $somaSaida;
+
+            return view('user.caixa.list', compact('caixas'))->with(['valor' => $valor, 'saida' => $somaSaida, 'entrada' => $somaEntradas]);
 
     }
 
@@ -201,12 +205,13 @@ class CaixaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, FileUpdate $fileUpdate)
     {
         if(!$caixa = caixa::find($id))
         {
             return back();
         }
+        $caixa->fileUpdate()->delete();
 
         $caixa->delete();
         return redirect()->route('user.caixa.list');

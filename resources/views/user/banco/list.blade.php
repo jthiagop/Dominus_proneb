@@ -37,10 +37,51 @@
         </header>
         <!-- Main page content-->
         <div class="container-xl px-4 mt-n10">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <!-- Billing card 1-->
+                    <div class="card h-100 border-start-lg border-start-primary">
+                        <div class="card-body">
+                            <div class="small text-muted">Current monthly bill</div>
+                            <div class="h3">R$ {{ number_format($entrada, 2, ',', '.') }}</div>
+                            <a class="text-arrow-icon small" href="#!">
+                                Switch to yearly billing
+                                <i data-feather="arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <!-- Billing card 2-->
+                    <div class="card h-100 border-start-lg border-start-secondary">
+                        <div class="card-body">
+                            <div class="small text-muted">Next payment due</div>
+                            <div class="h3">R$ {{ number_format($saida, 2, ',', '.') }}</div>
+                            <a class="text-arrow-icon small text-secondary" href="#!">
+                                View payment history
+                                <i data-feather="arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <!-- Billing card 3-->
+                    <div class="card h-100 border-start-lg border-start-success">
+                        <div class="card-body">
+                            <div class="small text-muted">Current plan</div>
+                            <div class="h3 d-flex align-items-center">R$ {{ number_format($valor, 2, ',', '.') }}</div>
+                            <a class="text-arrow-icon small text-success" href="#!">
+                                Upgrade plan
+                                <i data-feather="arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card mb-4">
                 <div class="card-header">Extended DataTables</div>
                 <div class="card-body">
-                    <table  style="overflow-x:auto;" id="datatablesSimple">
+                    <table  id="datatablesSimple">
                         <thead>
                             <tr>
                                 <th>Nº do Lançamento</th>

@@ -23,3 +23,9 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    var dataTable = new simpleDatatables.DataTable("#datatablesSimple", {
+        scrollX: true,
+    });
+});

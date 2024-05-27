@@ -71,6 +71,8 @@ Route::group(['middleware' => 'user'], function () {
 
     Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
     Route::get('/user/{id}', [CompanyController::class, 'show'])->name('company.show');
+    Route::get('/{id}', 'FileController@show');
+
 
 
     Route::post('upload-image-via-ajax', 'Controller@uploadImageViaAjax')->name('uploadImageViaAjax');
