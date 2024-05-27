@@ -28,7 +28,13 @@ class LancBancoController extends Controller
             ->get();
 
 
-        return view('user.banco.list', compact('lancBanco'));
+
+            list($somaEntradas, $somaSaida) = LancBanco::getBanco();
+
+            $valor = $somaEntradas - $somaSaida;
+
+            return view('user.banco.list', compact('lancBanco'))->with(['valor' => $valor, 'saida' => $somaSaida, 'entrada' => $somaEntradas]);
+
     }
 
     public function index(StandardRelease $standardRelease, Banco $banco)

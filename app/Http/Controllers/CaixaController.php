@@ -13,7 +13,7 @@ class CaixaController extends Controller
 
     public function list(caixa $caixa)
     {
-        $caixas = $caixa->all();
+        $caixas = $caixa->orderBy('id', 'desc')->get();
 
         $user = auth()->user();
 

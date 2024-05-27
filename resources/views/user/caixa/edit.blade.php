@@ -212,7 +212,7 @@
                 <div class="card-body">
                     <div class="small text-muted">Saldo em Conta</div>
                     <div class="h3">R$ {{ number_format($valor, 2, ',', '.') }}</div>
-                    <a class="text-arrow-icon small" href="{{ route('caixa.list') }}">
+                    <a class="text-arrow-icon small" href="{{ route('user.caixa.list') }}">
                         Exibir Todos dos registros
                         <i data-feather="arrow-right"></i>
                     </a>

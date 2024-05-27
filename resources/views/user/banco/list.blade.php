@@ -40,12 +40,12 @@
             <div class="row">
                 <div class="col-lg-4 mb-4">
                     <!-- Billing card 1-->
-                    <div class="card h-100 border-start-lg border-start-primary">
+                    <div class="card h-100 border-start-lg border-start-teal">
                         <div class="card-body">
-                            <div class="small text-muted">Current monthly bill</div>
+                            <div class="small text-muted">Entradas do mês atual</div>
                             <div class="h3">R$ {{ number_format($entrada, 2, ',', '.') }}</div>
-                            <a class="text-arrow-icon small" href="#!">
-                                Switch to yearly billing
+                            <a class="text-arrow-icon small text-teal" href="#!">
+                                Ver histórico de entradas
                                 <i data-feather="arrow-right"></i>
                             </a>
                         </div>
@@ -53,12 +53,12 @@
                 </div>
                 <div class="col-lg-4 mb-4">
                     <!-- Billing card 2-->
-                    <div class="card h-100 border-start-lg border-start-secondary">
+                    <div class="card h-100 border-start-lg border-start-danger">
                         <div class="card-body">
-                            <div class="small text-muted">Next payment due</div>
+                            <div class="small text-muted">Saídas do mês atual</div>
                             <div class="h3">R$ {{ number_format($saida, 2, ',', '.') }}</div>
-                            <a class="text-arrow-icon small text-secondary" href="#!">
-                                View payment history
+                            <a class="text-arrow-icon small text-danger" href="#!">
+                                Ver histórico de saídas
                                 <i data-feather="arrow-right"></i>
                             </a>
                         </div>
@@ -68,10 +68,10 @@
                     <!-- Billing card 3-->
                     <div class="card h-100 border-start-lg border-start-success">
                         <div class="card-body">
-                            <div class="small text-muted">Current plan</div>
+                            <div class="small text-muted">Saldo total</div>
                             <div class="h3 d-flex align-items-center">R$ {{ number_format($valor, 2, ',', '.') }}</div>
                             <a class="text-arrow-icon small text-success" href="#!">
-                                Upgrade plan
+                                Ver detalhes do saldo
                                 <i data-feather="arrow-right"></i>
                             </a>
                         </div>

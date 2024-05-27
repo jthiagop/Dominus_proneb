@@ -91,6 +91,7 @@ class LancBanco extends Model
 
         return ([$somaEntradas, $somaSaida]); // Retorna o valor para o controlador
 
+
     }
 
 
