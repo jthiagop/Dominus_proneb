@@ -81,7 +81,7 @@
             <div class="card mb-4">
                 <div class="card-header">Extended DataTables</div>
                 <div class="card-body">
-                    <table  id="datatablesSimple">
+                    <table  id="datatablesSimple" >
                         <thead>
                             <tr>
                                 <th>Nº do Lançamento</th>

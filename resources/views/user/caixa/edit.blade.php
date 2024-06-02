@@ -186,13 +186,17 @@
                                 <div class="tab-pane fade" id="activities" role="tabpanel"
                                     aria-labelledby="activities-pill">
                                     <div class="mb-3">
+                                        <h4>Adicionar Nota Fiscal</h4>
                                         <label for="formFileLg" class="form-label">Adicionar NF</label>
-                                        @if ($caixa->fileupdate->isNotEmpty())
-                                            <input name="fileUpdate" class="form-control form-control-lg" id="fileUpdate" type="file" value="{{ $caixa->fileupdate->first()->path }}">
-                                            <a href="{{ $caixa->fileupdate->first()->path }}">{{$caixa->fileupdate->first()->name}}</a>
-                                        @else
-                                            <p>Nenhum arquivo anexado.</p>
-                                        @endif
+                                        @foreach ($fileUpdates as $fileUpdate)
+                                            <div class="mb-3">
+                                                <input type="file" multiple id="inp-images" name="images[]"
+                                                    class="form-control">
+
+                                                <a href="http://localhost:8000/storage/{{ $fileUpdate->path }}"
+                                                    target="_blank">{{ $fileUpdate->name }}</a>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -227,89 +231,89 @@
     </div>
 
 
+    <script>
+        $("#inp-images").fileinput({
+            theme: "fa",
+            maxFileCount: 5,
+allowedFileTypes: ['image', 'pdf'],
+            showCancel: true,
+            showRemove: false,
+            showUpload: false,
+            overwriteInitial: false,
+            initialPreview: [
+                @foreach ($fileUpdates as $img)
+                    "{{ url('storage/' . $img->path) }}",
+                @endforeach
+            ],
+            initialPreviewAsData: true,
+            initialPreviewConfig: [
+                @foreach ($fileUpdates as $img)
+                    @php
+                        $filePath = storage_path('app/public/files/' . $img->path);
+                        $size = file_exists($filePath) ? filesize($filePath) : 0;
+                    @endphp {
+                        size: "{{ $size }}",
+                        width: "120px",
+                        url: "{{ route('deestroy.img', [$img->id, '_token' => csrf_token()]) }}",
+                        caption: "{{ $img->name }}", // Adicione esta linha
+                    },
+                @endforeach
+            ],
+        });
+        $('.fileinput-remove').html('<i class="fa fa-times-circle text-danger"></i>')
+            .addClass('rounded p-1 m-1');
+        $("#inp-images").on("filepredelete", function(jqXHR) {
+            var abort = true;
+            if (confirm("Tem certeza que deseja excluir esta anexo?")) {
+                abort = false;
+            }
+            return abort;
+        });
+
+        $("#inp-images").on('fileloaded', function(event, file, previewId, index, reader) {
+            if (file.type === "application/pdf") {
+                var canvas = document.getElementById(previewId).getElementsByTagName('canvas')[0];
+                var context = canvas.getContext('2d');
+
+                var loadingTask = pdfjsLib.getDocument(URL.createObjectURL(file));
+                loadingTask.promise.then(function(pdf) {
+                    pdf.getPage(1).then(function(page) {
+                        var viewport = page.getViewport({
+                            scale: 1.0
+                        });
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+
+                        var renderContext = {
+                            canvasContext: context,
+                            viewport: viewport
+                        };
+                        page.render(renderContext);
+                    });
+                });
+            }
+        });
+    </script>
+
+
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript">
+        var i = 0;
+        $("#dynamic-ar").click(function() {
+            ++i;
+            $("#dynamicAddRemove").append('<tr><td><input type="file" name="fileUpdate[' + i +
+                '][subject]" placeholder="Enter subject" class="form-control" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Deletar</button></td></tr>'
+            );
+        });
+        $(document).on('click', '.remove-input-field', function() {
+            $(this).parents('tr').remove();
+        });
+    </script>
+
 @section('footer')
     @include('layout.footer')
 @endsection
 @endsection
-
-<div class="modal fade" id="exampleModalXl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
-style="display: none;" aria-hidden="true">
-<div class="modal-dialog modal-xl" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title"><i class="mx-1" data-feather="search">
-                </i> Busca de movimento de caixa</h5>
-            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <table id="datatablesSimple">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th>Age</th>
-                            <th>Start date</th>
-                            <th>Salary</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th>Age</th>
-                            <th>Start date</th>
-                            <th>Salary</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
-                            <td>
-                                <div class="badge bg-primary text-white rounded-pill">Full-time</div>
-                            </td>
-                            <td>
-                                <button class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i
-                                        class="fa-solid fa-ellipsis-vertical"></i></button>
-                                <button class="btn btn-datatable btn-icon btn-transparent-dark"><i
-                                        class="fa-regular fa-trash-can"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Donna Snider</td>
-                            <td>Customer Support</td>
-                            <td>New York</td>
-                            <td>27</td>
-                            <td>2011/01/25</td>
-                            <td>$112,000</td>
-                            <td>
-                                <div class="badge bg-secondary text-white rounded-pill">Part-time</div>
-                            </td>
-                            <td>
-                                <button class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i
-                                        class="fa-solid fa-ellipsis-vertical"></i></button>
-                                <button class="btn btn-datatable btn-icon btn-transparent-dark"><i
-                                        class="fa-regular fa-trash-can"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="modal-footer"><button class="btn btn-primary" type="button"
-                data-bs-dismiss="modal">Close</button></div>
-    </div>
-</div>
-</div>

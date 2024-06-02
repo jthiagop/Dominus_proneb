@@ -7,13 +7,16 @@ use App\Models\FileUpdate;
 use App\Models\StandardRelease;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
 
 class CaixaController extends Controller
 {
 
     public function list(caixa $caixa)
     {
-        $caixas = $caixa->orderBy('id', 'desc')->get();
+        $caixas = $caixa->all();
 
         $user = auth()->user();
 
@@ -27,12 +30,11 @@ class CaixaController extends Controller
             ->select('caixas.*') // Seleciona apenas o campo valor da tabela caixa
             ->get();
 
-            list($somaEntradas, $somaSaida) = caixa::getCaixa();
+        list($somaEntradas, $somaSaida) = caixa::getCaixa();
 
-            $valor = $somaEntradas - $somaSaida;
+        $valor = $somaEntradas - $somaSaida;
 
-            return view('user.caixa.list', compact('caixas'))->with(['valor' => $valor, 'saida' => $somaSaida, 'entrada' => $somaEntradas]);
-
+        return view('user.caixa.list', compact('caixas'))->with(['valor' => $valor, 'saida' => $somaSaida, 'entrada' => $somaEntradas]);
     }
 
     public function index(StandardRelease $standardRelease, Caixa $caixa)
@@ -75,6 +77,15 @@ class CaixaController extends Controller
      */
     public function store(Request $request, StandardRelease $standardRelease, FileUpdate $fileUpdate)
     {
+        $request->validate(
+            [
+                'valor' => 'required',
+            ],
+            [
+                'valor.required' => 'O campo valor é obrigatório.',
+            ]
+        );
+
         // Recupere o usuário logado
         $user = auth()->user();
         $fileUpdate = $fileUpdate->all();
@@ -95,10 +106,6 @@ class CaixaController extends Controller
             ->select('users.*', 'subsidiary_user.subsidiary_id', 'subsidiaries.name as subsidiaries_name')
             ->get();
 
-            $input = $request;
-            $file = $input['fileUpdate'];
-            $name = $file->getClientOriginalName();
-            $path = $file->store('files', 'public');
 
         $caixa = caixa::create([
             'subsidiary_id' => $subsidiaryId->subsidiary_id,
@@ -114,16 +121,28 @@ class CaixaController extends Controller
 
         $data = $caixa->id;
 
-        FileUpdate::query()->create([
-            'name' => $name,
-            'path' => $path,
-            'subsidiary_id' => $subsidiaryId->subsidiary_id,
-            'caixa_id' => $data,
-            'userName' => $user->name, // Adiciona o nome do usuário logado
-        ]);
 
+        $input = $request;
 
+        if ($request->hasFile('fileUpdate')) {
+            foreach ($input['fileUpdate'] as $file) {
+                $name = $file->getClientOriginalName();
+                $path = $file->store('files', 'public');
 
+                // Salva os dados de cada arquivo
+                FileUpdate::query()->create([
+                    'name' => $name,
+                    'path' => $path,
+                    'subsidiary_id' => $subsidiaryId->subsidiary_id,
+                    'caixa_id' => $data,
+                    'userName' => $user->name, // Adiciona o nome do usuário logado
+                ]);
+            }
+        } else {
+            // Defina $name e $path como null ou algum valor padrão
+            $name = null;
+            $path = null;
+        }
 
         $valor = caixa::getCaixa();
 
@@ -133,7 +152,7 @@ class CaixaController extends Controller
 
         $standardRelease['getRecord'] = $standardRelease->all();
 
-        return redirect()->back()->withInput()->with('valor', $valor)->with('success', ' Lançamento Realizado com Sucesso!');;
+        return redirect()->back()->withInput()->with('valor', $valor)->with('success', ' Lançamento Realizado com Sucesso!');
     }
 
     /**
@@ -150,10 +169,9 @@ class CaixaController extends Controller
     public function edit(StandardRelease $standardRelease, caixa $caixa, string $id)
     {
 
-        if(!$caixa = caixa::find($id))
-            {
-                return back();
-            }
+        if (!$caixa = caixa::find($id)) {
+            return back();
+        }
 
         $company = caixa::getcompany();
 
@@ -163,7 +181,10 @@ class CaixaController extends Controller
 
         $valor = $somaEntradas - $somaSaida;
 
-        return view('user.caixa.edit',$company, compact('caixa', 'standardRelease'))->with('valor', $valor);
+        $fileUpdates = FileUpdate::where('caixa_id', $caixa->id)->get();
+
+
+        return view('user.caixa.edit', $company, compact('caixa', 'standardRelease'))->with(['valor' => $valor, 'fileUpdates' => $fileUpdates]);
     }
 
     /**
@@ -171,8 +192,7 @@ class CaixaController extends Controller
      */
     public function update(caixa $caixa, FileUpdate $fileUpdate, Request $request, string $id)
     {
-        if(!$caixa = $caixa->find($id))
-        {
+        if (!$caixa = $caixa->find($id)) {
             return back();
         }
 
@@ -185,21 +205,31 @@ class CaixaController extends Controller
             'complemento',
         ]);
 
-
-        $file = $request->only([
-            'name',
-            'path',
-            'userName', // Adiciona o nome do usuário logado
-        ]);
-
         $data['valor'] = str_replace(',', '.', str_replace('.', '', $request->valor));
 
         $caixa->update($data);
 
-        $fileUpdate->update($file);
+        if ($request->hasFile('fileUpdate')) {
+            // Encontre o registro de arquivo que você deseja atualizar
+            $fileUpdateRecord = $fileUpdate->where('caixa_id', $id)->first();
+
+            // Exclua o arquivo antigo
+            Storage::delete('public/files' . $fileUpdateRecord->path);
+
+            // Faça o upload do novo arquivo
+            $file = $request->file('fileUpdate');
+            $name = $file->getClientOriginalName();
+            $path = $file->store('files', 'public');
+
+            // Atualize o registro no banco de dados
+            $fileUpdateRecord->update([
+                'name' => $name,
+                'path' => $path,
+                // Atualize quaisquer outros campos necessários
+            ]);
+        }
 
         return redirect()->route('user.caixa.list');
-
     }
 
     /**
@@ -207,14 +237,38 @@ class CaixaController extends Controller
      */
     public function destroy(string $id, FileUpdate $fileUpdate)
     {
-        if(!$caixa = caixa::find($id))
-        {
+        if (!$caixa = caixa::find($id)) {
             return back();
         }
         $caixa->fileUpdate()->delete();
 
         $caixa->delete();
-        return redirect()->route('user.caixa.list');
-
+        return redirect()->route('user.caixa.list')->with('error', ' Registro Excluido com Sucesso!');
     }
+
+    public function updateFile(Request $request, $id)
+    {
+        // Encontre o registro de arquivo que você deseja atualizar
+        $fileUpdate = FileUpdate::where('caixa_id', $id)->first();
+
+        if ($request->hasFile('fileUpdate')) {
+            // Exclua o arquivo antigo
+            Storage::delete('public/files' . $fileUpdate->path);
+
+            // Faça o upload do novo arquivo
+            $file = $request->file('fileUpdate');
+            $name = $file->getClientOriginalName();
+            $path = $file->store('files', 'public');
+
+            // Atualize o registro no banco de dados
+            $fileUpdate->update([
+                'name' => $name,
+                'path' => $path,
+                // Atualize quaisquer outros campos necessários
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Arquivo atualizado com sucesso!');
+    }
+
 }

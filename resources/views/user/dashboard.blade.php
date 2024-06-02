@@ -297,7 +297,7 @@
                             <!-- Dashboard Tab Pane 2-->
                             <div class="tab-pane fade" id="activities" role="tabpanel"
                                 aria-labelledby="activities-pill">
-                                <table id="datatablesSimple">
+                                <table id="datatablesSimple" class="display nowrap">
                                     <thead>
                                         <tr>
                                             <th>Date</th>

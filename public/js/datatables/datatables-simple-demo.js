@@ -1,31 +1,37 @@
-window.addEventListener('DOMContentLoaded', event => {
-    const datatablesSimple = document.getElementById('datatablesSimple');
-    if (datatablesSimple) {
-        let dataTable = new simpleDatatables.DataTable(datatablesSimple);
+$(document).ready(function() {
+    var table = $('#datatablesSimple').DataTable({
+        dom: 'Bfrtip', // Define onde os botões devem ser exibidos
+        buttons: [
+            {
+                extend: 'csv',
+                text: 'Exportar para CSV',
+                className: 'btn btn-sm btn-light text-primary'
+            },
+            {
+                extend: 'pdf',
+                text: 'Exportar para PDF',
+                className: 'btn btn-sm btn-light text-primary'
+            },
+            // Adicione mais botões conforme necessário
+        ],
 
-        // Após a inicialização do DataTable
-        dataTable.on('datatable.init', function () {
-            // Obtenha todas as células do cabeçalho
-            let headerCells = datatablesSimple.querySelectorAll('thead th');
+        responsive: true,
+        scrollX: "100%",
+        autoWidth: false, // Ativa a rolagem horizontal
+        searching: true, // Desativa a pesquisa
+        lengthChange: true, // Desativa a seleção de entradas por página
 
-            // Crie uma nova instância Sortable para cada célula do cabeçalho
-            headerCells.forEach(function (headerCell, index) {
-                new Sortable(headerCell, {
-                    // Configuração do Sortable.js
-                    group: 'shared',  // Para permitir a troca de itens entre todas as colunas
-                    animation: 150,
-                    onEnd: function (/**Event*/evt) {
-                        // Mover a coluna no DataTable quando a célula do cabeçalho é movida
-                        dataTable.columns().reorder([evt.oldIndex, evt.newIndex]);
-                    },
-                });
-            });
-        });
-    }
-});
+    }).draw();
 
-document.addEventListener("DOMContentLoaded", function() {
-    var dataTable = new simpleDatatables.DataTable("#datatablesSimple", {
-        scrollX: true,
+    table.buttons().container().appendTo('#buttons');
+
+    // Adicione o manipulador de eventos do clique do botão aqui
+    $('.filter').on('click', function() {
+        var filter = $(this).data('filter');
+        if (filter === 'all') {
+            table.search('').columns().search('').draw();
+        } else {
+            table.column(4).search(filter).draw();
+        }
     });
 });

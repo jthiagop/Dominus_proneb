@@ -14,6 +14,8 @@ use App\Http\Controllers\StandardReleaseController;
 use App\Http\Controllers\UserController;
 use App\Models\LancBanco;
 use App\Models\Subsidiary;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,6 +62,24 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('/user/caixa', [CaixaController::class, 'store'])->name('user.caixa.store');
     Route::get('/user/caixa/index', [CaixaController::class, 'create'])->name('user.caixa.create');
     Route::get('/user/caixa', [CaixaController::class, 'index'])->name('user.caixa.index');
+    Route::get('/uploads/{filename}', function ($filename)
+    {
+        $path = storage_path('app/public/files/' . $filename);
+
+        if (!File::exists($path)) {
+            abort(404);
+        }
+
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        return $response;
+    });
+
+    Route::delete('/destroy-img/{id}', [CaixaController::class, 'updateFile'])->name('deestroy.img');
 
     Route::delete('/user/banco/{id}', [LancBancoController::class, 'destroy'])->name('user.banco.destroy');
     Route::put('/user/banco/{id}', [LancBancoController::class, 'update'])->name('user.banco.update');

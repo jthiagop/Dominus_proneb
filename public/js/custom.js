@@ -35,3 +35,16 @@ num_documento.addEventListener('input', function(){
     this.value = formattedValor;
 
 });
+
+
+$(document).ready(function(){
+    $('.select2').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        closeOnSelect: false,
+    }).on('select2:select', function (e) {
+        var data = e.params.data;
+        console.log(data.id); // exibe o ID do item selecionado no console
+    });
+});

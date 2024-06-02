@@ -35,6 +35,8 @@
             </ol>
         </nav>
         <hr class="mt-0 mb-4" />
+        @include('__massage')
+
         <form action="" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
@@ -54,6 +56,7 @@
 
                             </ul>
                         </div>
+
                         <div class="card-body">
                             <div class="tab-content" id="dashboardNavContent">
                                 <!-- Dashboard Tab Pane 1-->
@@ -130,7 +133,7 @@
                                         <div class="col-md-4">
                                             <label class="small mb-1" for="inputBirthday">Numero Documento</label>
                                             <input class="form-control" id="num_documento" name="num_documento"
-                                                type="text" name="birthday" required placeholder="Entre com o número"
+                                                type="text" name="birthday" placeholder="Entre com o número"
                                                 value="" />
                                         </div>
 
@@ -157,9 +160,11 @@
                                 <div class="tab-pane fade" id="activities" role="tabpanel"
                                     aria-labelledby="activities-pill">
                                     <div class="mb-3">
+                                        <h4>Adicionar Nota Fiscal</h4>
                                         <label for="formFileLg" class="form-label">Adicionar NF</label>
-                                        <input name="fileUpdate" class="form-control form-control-lg" id="fileUpdate"
-                                               type="file">
+                                            <div class="file-loading">
+                                                <input id="file-fr" name="fileUpdate[]" type="file" multiple>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -167,7 +172,7 @@
                     </div>
                     <div class="card-header border-bottom">
                         <!-- Dashboard card navigation-->
-                        <button class="btn btn-success mb-2" type="submit"><i class="mx-1" data-feather="save">
+                        <button class="btn btn-success mb-2 btn-lg" type="submit"><i class="mx-1" data-feather="save">
                             </i>Lançar</button>
                     </div>
                 </div>
@@ -192,6 +197,26 @@
             </div>
         </div>
     </div>
+
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+<script>
+        $('#file-fr').fileinput({
+        theme: 'fa5',
+        language: 'pt-BR',
+        uploadUrl: '#',
+        allowedFileExtensions: ['jpg', 'png', 'gif', 'pdf']
+    });
+
+</script>
 
     <!-- JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
