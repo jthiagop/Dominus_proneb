@@ -79,7 +79,7 @@ Route::group(['middleware' => 'user'], function () {
         return $response;
     });
 
-    Route::delete('/destroy-img/{id}', [CaixaController::class, 'updateFile'])->name('deestroy.img');
+    Route::delete('/destroy-img/{id}', [CaixaController::class, 'fileDestroy'])->name('user.caixa.fileDestroy');
 
     Route::delete('/user/banco/{id}', [LancBancoController::class, 'destroy'])->name('user.banco.destroy');
     Route::put('/user/banco/{id}', [LancBancoController::class, 'update'])->name('user.banco.update');

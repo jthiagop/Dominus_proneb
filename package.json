@@ -13,6 +13,7 @@
     "dependencies": {
         "bootstrap-fileinput": "^5.5.4",
         "dropzone": "^6.0.0-beta.2",
+        "filepond": "^4.31.1",
         "jquery": "^3.7.1",
         "simple-datatables": "^9.0.3",
         "toastr": "^2.1.4"

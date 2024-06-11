@@ -1,5 +1,6 @@
 $(document).ready(function() {
     var table = $('#datatablesSimple').DataTable({
+
         dom: 'Bfrtip', // Define onde os botões devem ser exibidos
         buttons: [
             {
@@ -34,4 +35,6 @@ $(document).ready(function() {
             table.column(4).search(filter).draw();
         }
     });
+
+
 });

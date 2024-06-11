@@ -12,6 +12,21 @@
 
 @section('content')
 
+    <style>
+        /* Adicione estilos para a tabela aqui */
+        #datatablesSimple {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #datatablesSimple th,
+        #datatablesSimple td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+
     <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
         <div class="container-xl px-4">
             <div class="page-header-content">
@@ -161,10 +176,20 @@
                                     aria-labelledby="activities-pill">
                                     <div class="mb-3">
                                         <h4>Adicionar Nota Fiscal</h4>
-                                        <label for="formFileLg" class="form-label">Adicionar NF</label>
-                                            <div class="file-loading">
-                                                <input id="file-fr" name="fileUpdate[]" type="file" multiple>
+                                        <div class="input-group hdtuto control-group lst increment">
+                                            <input type="file" name="fileUpdate[]" class="myfrm form-control">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-success" type="button"><i class="fldemo glyphicon glyphicon-plus"></i>+ Add</button>
                                             </div>
+                                        </div>
+                                        <div class="clone d-none">
+                                            <div class="hdtuto control-group lst input-group mt-2">
+                                                <input type="file" name="fileUpdate[]" class="myfrm form-control">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-danger" type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Excluir</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -172,7 +197,8 @@
                     </div>
                     <div class="card-header border-bottom">
                         <!-- Dashboard card navigation-->
-                        <button class="btn btn-success mb-2 btn-lg" type="submit"><i class="mx-1" data-feather="save">
+                        <button class="btn btn-success mb-2 btn-lg" type="submit"><i class="mx-1"
+                                data-feather="save">
                             </i>Lançar</button>
                     </div>
                 </div>
@@ -199,24 +225,27 @@
     </div>
 
     @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-<script>
-        $('#file-fr').fileinput({
-        theme: 'fa5',
-        language: 'pt-BR',
-        uploadUrl: '#',
-        allowedFileExtensions: ['jpg', 'png', 'gif', 'pdf']
-    });
 
-</script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".btn-success").on('click', function(){
+                var lsthmtl = $(".clone").html();
+                $(".increment").after(lsthmtl);
+            });
+            $("body").on("click",".btn-danger",function(){
+                $(this).closest(".hdtuto").remove();
+            });
+        });
+    </script>
 
     <!-- JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

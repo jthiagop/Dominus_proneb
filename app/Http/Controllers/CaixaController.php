@@ -16,10 +16,7 @@ class CaixaController extends Controller
 
     public function list(caixa $caixa)
     {
-        $caixas = $caixa->all();
-
         $user = auth()->user();
-
 
         // Filtrar os usuários pelo usuário logado
         $caixas = DB::table('users')
@@ -28,6 +25,7 @@ class CaixaController extends Controller
             ->join('caixas', 'subsidiaries.id', '=', 'caixas.subsidiary_id') // Junta a tabela caixa
             ->where('users.id', $user->id) // Filtra pelo usuário logado
             ->select('caixas.*') // Seleciona apenas o campo valor da tabela caixa
+            ->orderBy('caixas.id', 'desc') // Ordena pelo campo id em ordem decrescente
             ->get();
 
         list($somaEntradas, $somaSaida) = caixa::getCaixa();
@@ -190,11 +188,19 @@ class CaixaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(caixa $caixa, FileUpdate $fileUpdate, Request $request, string $id)
+    public function update(caixa $caixa, Request $request, string $id)
     {
         if (!$caixa = $caixa->find($id)) {
             return back();
         }
+        $user = auth()->user();
+
+        $subsidiaryId = DB::table('users')
+        ->join('subsidiary_user', 'users.id', '=', 'subsidiary_user.user_id')
+        ->join('subsidiaries', 'subsidiary_user.subsidiary_id', '=', 'subsidiaries.id')
+        ->where('users.id', $user->id) // Filtra pelo usuário logado
+        ->select('subsidiary_user.subsidiary_id')
+        ->first();
 
         $data = $request->only([
             'data',
@@ -204,32 +210,36 @@ class CaixaController extends Controller
             'num_documento',
             'complemento',
         ]);
+        $dataid = $caixa->id;
 
         $data['valor'] = str_replace(',', '.', str_replace('.', '', $request->valor));
 
         $caixa->update($data);
 
+        $input = $request;
+
         if ($request->hasFile('fileUpdate')) {
-            // Encontre o registro de arquivo que você deseja atualizar
-            $fileUpdateRecord = $fileUpdate->where('caixa_id', $id)->first();
 
-            // Exclua o arquivo antigo
-            Storage::delete('public/files' . $fileUpdateRecord->path);
+            foreach ($input['fileUpdate'] as $file) {
+                $name = $file->getClientOriginalName();
+                $path = $file->store('files', 'public');
 
-            // Faça o upload do novo arquivo
-            $file = $request->file('fileUpdate');
-            $name = $file->getClientOriginalName();
-            $path = $file->store('files', 'public');
-
-            // Atualize o registro no banco de dados
-            $fileUpdateRecord->update([
-                'name' => $name,
-                'path' => $path,
-                // Atualize quaisquer outros campos necessários
-            ]);
+                // Salva os dados de cada arquivo
+                FileUpdate::query()->create([
+                    'name' => $name,
+                    'path' => $path,
+                    'subsidiary_id' => $subsidiaryId->subsidiary_id,
+                    'caixa_id' => $dataid,
+                    'userName' => $user->name, // Adiciona o nome do usuário logado
+                ]);
+            }
+        } else {
+            // Defina $name e $path como null ou algum valor padrão
+            $name = null;
+            $path = null;
         }
 
-        return redirect()->route('user.caixa.list');
+        return redirect()->route('user.caixa.list')->with('success', ' Lançamento Atualizado com Sucesso!');
     }
 
     /**
@@ -246,29 +256,22 @@ class CaixaController extends Controller
         return redirect()->route('user.caixa.list')->with('error', ' Registro Excluido com Sucesso!');
     }
 
-    public function updateFile(Request $request, $id)
+    public function fileDestroy(Request $request, $id)
     {
-        // Encontre o registro de arquivo que você deseja atualizar
-        $fileUpdate = FileUpdate::where('caixa_id', $id)->first();
+        // Encontre o arquivo no banco de dados
+        $file = FileUpdate::find($id);
 
-        if ($request->hasFile('fileUpdate')) {
-            // Exclua o arquivo antigo
-            Storage::delete('public/files' . $fileUpdate->path);
+    // Verifique se o arquivo existe no armazenamento
+    if (Storage::exists($file->path)) {
+        // Exclua o arquivo do armazenamento
+        Storage::delete($file->path);
+    }
 
-            // Faça o upload do novo arquivo
-            $file = $request->file('fileUpdate');
-            $name = $file->getClientOriginalName();
-            $path = $file->store('files', 'public');
+    // Exclua o registro do arquivo do banco de dados
+    $file->delete();
 
-            // Atualize o registro no banco de dados
-            $fileUpdate->update([
-                'name' => $name,
-                'path' => $path,
-                // Atualize quaisquer outros campos necessários
-            ]);
-        }
+    return redirect()->back()->with('success', 'Arquivo excluído com sucesso!');
 
-        return redirect()->back()->with('success', 'Arquivo atualizado com sucesso!');
     }
 
 }
