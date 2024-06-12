@@ -62,22 +62,6 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('/user/caixa', [CaixaController::class, 'store'])->name('user.caixa.store');
     Route::get('/user/caixa/index', [CaixaController::class, 'create'])->name('user.caixa.create');
     Route::get('/user/caixa', [CaixaController::class, 'index'])->name('user.caixa.index');
-    Route::get('/uploads/{filename}', function ($filename)
-    {
-        $path = storage_path('app/public/files/' . $filename);
-
-        if (!File::exists($path)) {
-            abort(404);
-        }
-
-        $file = File::get($path);
-        $type = File::mimeType($path);
-
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
-
-        return $response;
-    });
 
     Route::delete('/destroy-img/{id}', [CaixaController::class, 'fileDestroy'])->name('user.caixa.fileDestroy');
 

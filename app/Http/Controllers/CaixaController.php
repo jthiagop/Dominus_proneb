@@ -175,6 +175,7 @@ class CaixaController extends Controller
 
         $standardRelease = $standardRelease->all();
 
+
         list($somaEntradas, $somaSaida) = caixa::getCaixa();
 
         $valor = $somaEntradas - $somaSaida;

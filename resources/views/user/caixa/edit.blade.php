@@ -94,9 +94,13 @@
                                         <!-- Form Group (location)-->
                                         <div class="col-md-6">
                                             <label class="small mb-1" for="subsidiary">Lançamento padrão:</label>
-                                            <select class="form-select" id="subsidiary_id" name="subsidiary_id">
+                                            <select id="select-beast" name="lp" placeholder="Digite o que procura..."
+                                                autocomplete="off">
+                                                <option value="">$caixa->lp</option>
                                                 @foreach ($standardRelease as $registro)
-                                                    <option value="{{ $registro->id }}">{{ $registro->name }}
+                                                    <option value="{{ $registro->name }}"
+                                                        {{ $registro->name == $caixa->lp ? 'selected' : '' }}>
+                                                        {{ $registro->id }} - {{ $registro->name }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -189,20 +193,16 @@
                                     <div class="mb-3">
                                         <h4>Adicionar Nota Fiscal</h4>
                                         <div class="input-group hdtuto control-group lst increment">
-                                            <input type="file" name="fileUpdate[]" class="myfrm form-control"
-                                                multiple>
+                                            <input type="file" name="fileUpdate[]" class="myfrm form-control" multiple>
                                             <div class="input-group-append">
-                                                <button class="btn btn-success" type="button"><i
-                                                        class="fldemo glyphicon glyphicon-plus"></i>+ Add</button>
+                                                <button class="btn btn-success" type="button"><i class="fldemo glyphicon glyphicon-plus"></i>+ Add</button>
                                             </div>
                                         </div>
                                         <div class="clone d-none">
                                             <div class="hdtuto control-group lst input-group mt-2">
-                                                <input type="file" name="fileUpdate[]" class="myfrm form-control"
-                                                    multiple>
+                                                <input type="file" name="fileUpdate[]" class="myfrm form-control" multiple>
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-danger" type="button"><i
-                                                            class="fldemo glyphicon glyphicon-remove"></i> Excluir</button>
+                                                    <button class="btn btn-danger" type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Excluir</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -240,78 +240,117 @@
                 </div>
             </div>
             <!-- Dashboard Tab Pane 2-->
-            <div class="mb-3">
-                <h4>Adicionar Nota Fiscal</h4>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nome do Arquivo</th>
-                            <th scope="col">Tamanho</th>
-                            <th scope="col">Data de Upload</th>
-                            <th scope="col">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($fileUpdates as $file)
-                            <tr>
-                                <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $file->name }}</td>
-                                <td>{{ $file->size }} KB</td>
-                                <td>{{ $file->created_at->format('d/m/Y') }}</td>
-                                <td>
-                                    <a href="{{ Storage::url($file->path) }}" target="_blank"
-                                        class="btn btn-primary btn-sm">
-                                        <i class="glyphicon glyphicon-eye-open"></i> Visualizar
-                                    </a>
-                                    <a href="/edit-file/{{ $file->id }}" class="btn btn-warning btn-sm">
-                                        <i class="glyphicon glyphicon-edit"></i> Editar
-                                    </a>
-                                    <form action="{{ route('user.caixa.fileDestroy', $file->id) }}" method="post"
-                                        style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="glyphicon glyphicon-trash"></i> Excluir
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Tabbed dashboard card example-->
+                    <div class="card mb-4">
+                        <table id="datatablesSimple" class="display nowrap">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nome do Arquivo</th>
+                                    <th>Data de Upload</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($fileUpdates as $file)
+                                    <tr>
+                                        <th>{{ $loop->iteration }}</th>
+                                        <td>{{ $file->name }}</td>
+                                        <td>{{ $file->created_at->format('d/m/Y') }}</td>
+                                        <td>
+                                            <a href="{{ Storage::url($file->path) }}" target="_blank"><i
+                                                    class="fa-regular fa-eye px-1"></i>
+                                            </a>
+                                            <form action="{{ route('user.caixa.fileDestroy', $file->id) }}"
+                                                method="post" style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <a href="#" onclick="this.closest('form').submit(); return false;">
+                                                    <i class="fas fa-trash text-danger px-1"></i>
+                                                </a>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $(".btn-success").on('click', function() {
-                    var lsthmtl = $(".clone").html();
-                    $(".increment").after(lsthmtl);
+            <script>
+                $(document).ready(function() {
+    function fetchFiles() {
+        $.ajax({
+            url: '/sua-rota-aqui', // substitua por sua rota que retorna os dados
+            method: 'GET',
+            success: function(data) {
+                // limpa a tabela
+                $('#datatablesSimple tbody').empty();
+
+                // preenche a tabela com novos dados
+                data.fileUpdates.forEach(function(file, index) {
+                    $('#datatablesSimple tbody').append(`
+                        <tr>
+                            <th>${index + 1}</th>
+                            <td>${file.name}</td>
+                            <td>${file.created_at}</td>
+                            <td>
+                                <a href="${file.path}" target="_blank"><i class="fa-regular fa-eye px-1"></i></a>
+                                <a href="#" class="delete-file" data-id="${file.id}"><i class="fas fa-trash text-danger px-1"></i></a>
+                            </td>
+                        </tr>
+                    `);
                 });
-                $("body").on("click", ".btn-danger", function() {
-                    $(this).closest(".hdtuto").remove();
+
+                // adiciona evento de clique para botões de exclusão
+                $('.delete-file').click(function(e) {
+                    e.preventDefault();
+                    var id = $(this).data('id');
+                    // aqui você pode adicionar a lógica para excluir o arquivo
+                    $.ajax({
+                        url: '/user.caixa.fileDestroy/' + id, // substitua por sua rota de exclusão
+                        method: 'POST',
+                        data: {
+                            _method: 'DELETE',
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function() {
+                            // recarrega os arquivos após a exclusão
+                            fetchFiles();
+                        }
+                    });
                 });
-            });
-        </script>
+            }
+        });
+    }
 
-        <!-- JavaScript -->
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-        <script type="text/javascript">
-            var i = 0;
-            $("#dynamic-ar").click(function() {
-                ++i;
-                $("#dynamicAddRemove").append('<tr><td><input type="file" name="fileUpdate[' + i +
-                    '][subject]" placeholder="Enter subject" class="form-control" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Deletar</button></td></tr>'
-                );
-            });
-            $(document).on('click', '.remove-input-field', function() {
-                $(this).parents('tr').remove();
-            });
-        </script>
+    // busca os arquivos quando a página é carregada
+    fetchFiles();
+});
+            </script>
 
-    @section('footer')
-        @include('layout.footer')
+            <script type="text/javascript"></script>
+
+            <!-- JavaScript -->
+            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+            <script type="text/javascript">
+                var i = 0;
+                $("#dynamic-ar").click(function() {
+                    ++i;
+                    $("#dynamicAddRemove").append('<tr><td><input type="file" name="fileUpdate[' + i +
+                        '][subject]" placeholder="Enter subject" class="form-control" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Deletar</button></td></tr>'
+                    );
+                });
+                $(document).on('click', '.remove-input-field', function() {
+                    $(this).parents('tr').remove();
+                });
+            </script>
+
+        @section('footer')
+            @include('layout.footer')
+        @endsection
     @endsection
-@endsection

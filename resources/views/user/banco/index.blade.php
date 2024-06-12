@@ -102,7 +102,7 @@
                                             <label class="small mb-1" for="subsidiary">Lançamento padrão:</label>
                                             <select class="form-control select2" id="subsidiary_id" name="subsidiary_id">
                                                 @foreach ($getRecord as $registro)
-                                                    <option value="{{ $registro->id }}">{{ $registro->id }} - {{ $registro->name }}</option>
+                                                    <option value="{{ $registro->name }}">{{ $registro->id }} - {{ $registro->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

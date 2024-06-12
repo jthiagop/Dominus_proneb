@@ -109,10 +109,11 @@
                                         <!-- Form Group (location)-->
                                         <div class="col-md-6">
                                             <label class="small mb-1" for="subsidiary">Lançamento padrão:</label>
-                                            <select class="form-select" id="subsidiary_id" name="subsidiary_id">
+                                            <select id="select-beast" name="lp" placeholder="Digite o que procura..."
+                                                autocomplete="off">
                                                 @foreach ($getRecord as $registro)
-                                                    <option value="{{ $registro->id }}">{{ $registro->name }}
-                                                    </option>
+                                                    <option value="{{ $registro->name }}">{{ $registro->id }} -
+                                                        {{ $registro->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -122,7 +123,7 @@
                                         <!-- Form Group (phone number)-->
                                         <div class="col-md-4">
                                             <label class="small mb-1" for="inputPhone">Tipo de Documento</label>
-                                            <select class="form-select " name="tipo_documento" id="tipo_documento">
+                                            <select class="form-control" name="tipo_documento" id="tipo_documento">
                                                 <option value="OUTR - Dafe">OUTR - Dafe</option>
                                                 <option value="NF - Nota Fiscal">NF - Nota Fiscal</option>
                                                 <option value="DANF - Danfe">DANF - Danfe</option>
@@ -179,14 +180,16 @@
                                         <div class="input-group hdtuto control-group lst increment">
                                             <input type="file" name="fileUpdate[]" class="myfrm form-control">
                                             <div class="input-group-append">
-                                                <button class="btn btn-success" type="button"><i class="fldemo glyphicon glyphicon-plus"></i>+ Add</button>
+                                                <button class="btn btn-success" type="button"><i
+                                                        class="fldemo glyphicon glyphicon-plus"></i>+ Add</button>
                                             </div>
                                         </div>
                                         <div class="clone d-none">
                                             <div class="hdtuto control-group lst input-group mt-2">
                                                 <input type="file" name="fileUpdate[]" class="myfrm form-control">
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-danger" type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Excluir</button>
+                                                    <button class="btn btn-danger" type="button"><i
+                                                            class="fldemo glyphicon glyphicon-remove"></i> Excluir</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -224,26 +227,13 @@
         </div>
     </div>
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
 
-    <script type="text/javascript">
+
+
+    <script>
         $(document).ready(function() {
-            $(".btn-success").on('click', function(){
-                var lsthmtl = $(".clone").html();
-                $(".increment").after(lsthmtl);
-            });
-            $("body").on("click",".btn-danger",function(){
-                $(this).closest(".hdtuto").remove();
-            });
+            $('#select_field').select2();
         });
     </script>
 

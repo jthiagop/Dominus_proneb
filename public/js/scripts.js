@@ -74,3 +74,25 @@
         targetAnchor.classList.add('active');
     });
 });
+
+
+//add mais im campo de input no formulário
+$(document).ready(function() {
+    $(".btn-success").on('click', function() {
+        var lsthmtl = $(".clone").html();
+        $(".increment").after(lsthmtl);
+    });
+    $("body").on("click", ".btn-danger", function() {
+        $(this).closest(".hdtuto").remove();
+    });
+});
+
+//select2 dos formulários
+new TomSelect("#select-beast", {
+plugins: ['dropdown_input'],
+create: false,
+sortField: {
+    field: "text",
+    direction: "desc"
+}
+});

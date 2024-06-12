@@ -106,6 +106,7 @@
                                 <th>Tipo</th>
                                 <th>Valor</th>
                                 <th>Anexo</th>
+                                <th>Descrição de Conta</th>
                                 <th>Complemento Histórico</th>
                                 <th>Ações</th>
                             </tr>
@@ -133,6 +134,7 @@
                                             Não
                                         @endif
                                     </td>
+                                    <td>{{$caixa->lp}}</td>
                                     <td>{{ $caixa->complemento }}</td>
                                     <td>
                                         <div class="dropdown">
