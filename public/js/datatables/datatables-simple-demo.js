@@ -42,7 +42,10 @@ $(document).ready(function() {
             {
                 extend: 'pdf',
                 text: 'Exportar para PDF',
-                className: 'btn btn-sm btn-light text-primary'
+                className: 'btn btn-sm btn-light text-primary',
+                exportOptions: {
+                    columns: [0, 1, 2,3,4,5,7,8] // Mesmos índices das colunas que deseja exportar
+                }
             },
             // Adicione mais botões conforme necessário
         ],

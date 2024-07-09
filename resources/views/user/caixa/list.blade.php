@@ -99,7 +99,7 @@
                     <table id="datatablesSimple" class="display nowrap">
                         <thead>
                             <tr>
-                                <th>Nº do ID</th>
+                                <th>ID</th>
                                 <th>Data</th>
                                 <th>Tipo de Docuemento</th>
                                 <th>Documento</th>
