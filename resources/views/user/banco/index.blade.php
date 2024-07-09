@@ -100,9 +100,10 @@
                                         <!-- Form Group (location)-->
                                         <div class="col-md-6">
                                             <label class="small mb-1" for="subsidiary">Lançamento padrão:</label>
-                                            <select class="form-control select2" id="subsidiary_id" name="subsidiary_id">
+                                            <select id="select-beast" name="lp" placeholder="Digite o que procura..."
+                                                autocomplete="off">
                                                 @foreach ($getRecord as $registro)
-                                                    <option value="{{ $registro->name }}">{{ $registro->id }} - {{ $registro->name }}</option>
+                                                    <option value="{{ $registro->name }}">{{ $registro->id }} - {{ $registro->name }} - {{ $registro->tipo }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
