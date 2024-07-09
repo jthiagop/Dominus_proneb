@@ -87,7 +87,7 @@ class LancBancoController extends Controller
             'data' => $request->data,
             'banco' => $request->banco,
             'tipo' => $request->tipo,
-            'lp' => $request->subsidiary_id,
+            'lp' => $request->lp,
             'tipo_documento' => $request->tipo_documento,
             'num_documento' => $request->num_documento,
             'valor' => str_replace(',', '.', str_replace('.', '', $request->valor)),

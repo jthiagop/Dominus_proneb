@@ -223,7 +223,7 @@ class CaixaController extends Controller
 
             foreach ($input['fileUpdate'] as $file) {
                 $name = $file->getClientOriginalName();
-                $path = $file->store('public/files'); // Salva na pasta "public/files"
+                $path = $file->store('files'); // Salva na pasta "public/files"
 
                 // Salva os dados de cada arquivo
                 FileUpdate::query()->create([

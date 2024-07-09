@@ -121,6 +121,7 @@
                                         <div class="col-md-4">
                                             <label class="small mb-1" for="inputPhone">Tipo de Documento</label>
                                             <select class="form-control" name="tipo_documento" id="tipo_documento">
+                                                <option value="TRIB - Tribunal">Pix</option>
                                                 <option value="OUTR - Dafe">OUTR - Dafe</option>
                                                 <option value="NF - Nota Fiscal">NF - Nota Fiscal</option>
                                                 <option value="DANF - Danfe">DANF - Danfe</option>
@@ -137,6 +138,7 @@
                                                 <option value="APOL - Apólice">APOL - Apólice</option>
                                                 <option value="DUPL - Duplicata">DUPL - Duplicata</option>
                                                 <option value="TRIB - Tribunal">TRIB - Tribunal</option>
+                                                <option value="TRIB - Tribunal">Outros</option>
                                                 <option value="T Banc - Transferêrencia Bancaria">T Banc -
                                                     Transferêrencia
                                                     Bancaria</option>

@@ -85,7 +85,7 @@
                                         <div class="col-md-4">
                                             <label class="small mb-1" for="inputFirstName">Data do
                                                 Lançamento:</label>
-                                            <input class="form-control" id="data" name="data" type="date"
+                                            <input class="form-control" required id="data" name="data" type="date"
                                                 placeholder="Enter your first name" value="Valerie" />
                                         </div>
                                         <!-- Form Group (last name)-->
@@ -115,6 +115,7 @@
                                             <label class="small mb-1" for="inputPhone">Tipo de Documento</label>
                                             <select class="form-select " name="tipo_documento" id="tipo_documento">
                                                 <option value="OUTR - Dafe">OUTR - Dafe</option>
+                                                <option value="TRIB - Tribunal">Pix</option>
                                                 <option value="NF - Nota Fiscal">NF - Nota Fiscal</option>
                                                 <option value="DANF - Danfe">DANF - Danfe</option>
                                                 <option value="BOL - Boleto">BOL - Boleto</option>
@@ -164,13 +165,27 @@
                                 </div>
                                 <!-- Dashboard Tab Pane 2-->
                                 <div class="tab-pane fade" id="activities" role="tabpanel"
-                                aria-labelledby="activities-pill">
-                                <div class="mb-3">
-                                    <label for="formFileLg" class="form-label">Adicionar NF</label>
-                                    <input name="fileUpdate" class="form-control form-control-lg" id="fileUpdate"
-                                           type="file">
+                                    aria-labelledby="activities-pill">
+                                    <div class="mb-3">
+                                        <h4>Adicionar Nota Fiscal</h4>
+                                        <div class="input-group hdtuto control-group lst increment">
+                                            <input type="file" name="fileUpdate[]" class="myfrm form-control">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-success" type="button"><i
+                                                        class="fldemo glyphicon glyphicon-plus"></i>+ Add</button>
+                                            </div>
+                                        </div>
+                                        <div class="clone d-none">
+                                            <div class="hdtuto control-group lst input-group mt-2">
+                                                <input type="file" name="fileUpdate[]" class="myfrm form-control">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-danger" type="button"><i
+                                                            class="fldemo glyphicon glyphicon-remove"></i> Excluir</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
                             </div>
                         </div>
                     </div>
@@ -207,6 +222,29 @@
     @include('layout.footer')
 @endsection
 @endsection
+
+<script>
+    $(document).ready(function() {
+        $('#select_field').select2();
+    });
+</script>
+
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+    var i = 0;
+    $("#dynamic-ar").click(function() {
+        ++i;
+        $("#dynamicAddRemove").append('<tr><td><input type="file" name="fileUpdate[' + i +
+            '][subject]" placeholder="Enter subject" class="form-control" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Deletar</button></td></tr>'
+        );
+    });
+    $(document).on('click', '.remove-input-field', function() {
+        $(this).parents('tr').remove();
+    });
+</script>
+
 
 <div class="modal fade" id="exampleModalXl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
 style="display: none;" aria-hidden="true">

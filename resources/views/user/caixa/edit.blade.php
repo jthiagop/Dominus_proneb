@@ -298,7 +298,7 @@
                             <td>${file.name}</td>
                             <td>${file.created_at}</td>
                             <td>
-                                <a href="${file.path}" target="_blank"><i class="fa-regular fa-eye px-1"></i></a>
+                                <a href="${asset(file.path)}" target="_blank"><i class="fa-regular fa-eye px-1"></i></a>
                                 <a href="#" class="delete-file" data-id="${file.id}"><i class="fas fa-trash text-danger px-1"></i></a>
                             </td>
                         </tr>
