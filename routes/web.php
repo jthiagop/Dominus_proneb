@@ -50,7 +50,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin/matriz/standardRelease/list', [StandardReleaseController::class, 'list'])->name('standard.list');
     Route::post('/admin/matriz/standardRelease/', [StandardReleaseController::class, 'store'])->name('standard.store');
 
-    Route::resource('bancos', [bancoController::class]);
+    Route::resource('Lbanco', [bancoController::class]);
 });
 
 Route::group(['middleware' => 'user'], function () {
