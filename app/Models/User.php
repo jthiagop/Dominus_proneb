@@ -51,7 +51,7 @@ class User extends Authenticatable
     static public function getAdmin()
     {
         return self::select('users.*')
-                        ->where('user_type', '=', 'superadmin')
+                        //->where('user_type', '=', 'superadmin')
                         ->orderBy('id', 'desc')
                         ->get();
     }

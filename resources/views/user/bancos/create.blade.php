@@ -36,7 +36,7 @@
         </header>
         <!-- Main page content-->
         <div class="container-xl px-4 mt-4">
-            <form action="{{ route('frade.banco.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('frade.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf()
                 <div class="row">
                     <div class="col-xl-2"></div>

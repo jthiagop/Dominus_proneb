@@ -57,7 +57,8 @@
                     <div class="card mb-4">
                         <div class="card-header">Dados da Conta</div>
                         <div class="card-body">
-                            <form method="POST" action="">
+                                <form action="{{route('superadmin.insert')}}" method="POST" enctype="multipart/form-data">
+
                                 @csrf
                                 <!-- Form Row-->
                                 <div class="row gx-3 mb-3">
@@ -84,35 +85,9 @@
                                             placeholder="***********" value="" />
                                     </div>
                                 </div>
-                                <!-- Form Group (Group Selection Checkboxes)-->
-                                <div class="mb-3">
-                                    <label class="small mb-1">Group(s)</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="groupSales" type="checkbox" value="" />
-                                        <label class="form-check-label" for="groupSales">Sales</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="groupDevs" type="checkbox" value="" />
-                                        <label class="form-check-label" for="groupDevs">Developers</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="groupMarketing" type="checkbox"
-                                            value="" />
-                                        <label class="form-check-label" for="groupMarketing">Marketing</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="groupManagers" type="checkbox" value="" />
-                                        <label class="form-check-label" for="groupManagers">Managers</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="groupCustomer" type="checkbox" value="" />
-                                        <label class="form-check-label" for="groupCustomer">Customer</label>
-                                    </div>
-                                </div>
-                                <!-- Form Group (Roles)-->
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label class="small mb-1">Role</label>
+                                    <div class="col-md-4">
+                                        <label class="small mb-1">Função</label>
                                         <select class="form-select" name="user_type" required
                                             aria-label="Default select example">
                                             <option selected disabled>Selecione função:</option>
@@ -122,7 +97,7 @@
                                             <option value="user">Usuário</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-8">
                                         <label class="small mb-1" for="subsidiary">Organismo:</label>
                                         <select class="form-select" id="subsidiary_id" name="subsidiary_id">
                                             @foreach ($subsidiary as $subsidiary)

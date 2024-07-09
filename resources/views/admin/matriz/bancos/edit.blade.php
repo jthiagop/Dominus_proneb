@@ -25,7 +25,7 @@
                             </h1>
                         </div>
                         <div class="col-12 col-xl-auto mb-3">
-                            <a class="btn btn-sm btn-light text-primary" href="{{ route('frade.banco.list') }}">
+                            <a class="btn btn-sm btn-light text-primary" href="{{ route('Lbancos.index') }}">
                                 <i class="me-1" data-feather="arrow-left"></i>
                                 Voltar
                             </a>
@@ -36,7 +36,7 @@
         </header>
         <!-- Main page content-->
         <div class="container-xl px-4 mt-4">
-            <form action="{{ route('frade.banco.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('Lbancos.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf()
                 <div class="row">
                     <div class="col-xl-2"></div>

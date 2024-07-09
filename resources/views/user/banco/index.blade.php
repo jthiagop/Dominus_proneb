@@ -69,7 +69,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label class="small mb-1" for="subsidiary">Bancos:</label>
-                                            <select class="form-select" id="banco" name="banco">
+                                            <select class="form-select" required id="banco" name="banco">
                                                 @foreach ($banco as $registro)
                                                 <option value="{{ $registro->id }}">{{ $registro->nome}}, {{$registro->agencia}}, {{$registro->conta }}</option>
                                             @endforeach

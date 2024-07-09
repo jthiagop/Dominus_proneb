@@ -1,13 +1,13 @@
-@extends('admin.layout.app')
+@extends('layout.app')
 
 @section('title', 'Matriz')
 
 @section('header')
-    @include('admin.layout.header')
+    @include('layout.header')
 @endsection
 
 @section('lateral')
-    @include('admin.layout.lateral')
+    @include('layout.lateral')
 @endsection
 
 
@@ -20,8 +20,8 @@
                 <div class="row align-items-center justify-content-between pt-3">
                     <div class="col-auto mb-3">
                         <h1 class="page-header-title">
-                            <div class="page-header-icon"><i data-feather="user"></i></div>
-                            Lista de Usuários
+                            <div class="page-header-icon"><i data-feather="table"></i></div>
+                            Cadastros de Bancos
                         </h1>
                     </div>
                     <div class="col-12 col-xl-auto mb-3">
@@ -29,9 +29,9 @@
                             <i class="me-1" data-feather="users"></i>
                             Gerenciar Grupos
                         </a>
-                        <a class="btn btn-sm btn-light text-primary" href="{{ route('user.caixa.create')}}">
-                            <i class="me-1" data-feather="user-plus"></i>
-                            Add Usuário
+                        <a class="btn btn-sm btn-light text-primary" href="{{ route('frade.create')}}">
+                            <i class="me-1" data-feather="table"></i>
+                            Add Banco
                         </a>
                     </div>
                 </div>
@@ -43,13 +43,15 @@
         @include('__massage')
         <div class="card">
             <div class="card-body">
-                <table id="datatablesSimple" class="display nowrap">
+                <table id="datatablesSimple">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Nome</th>
-                            <th>E-mail</th>
-                            <th>Data Criação</th>
+                            <th>Banco</th>
+                            <th>Conta</th>
+                            <th>Agência</th>
+                            <th>Tipo</th>
+                            <th>Data</th>
                             <th>Ações</th>
 
                         </tr>
@@ -57,26 +59,26 @@
                     <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>Nome</th>
-                            <th>E-mail</th>
-                            <th>Data Criação</th>
+                            <th>Banco</th>
+                            <th>Conta</th>
+                            <th>Agência</th>
+                            <th>Tipo</th>
+                            <th>Data</th>
                             <th>Ações</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ( $getRecord as $value )
+                        @foreach ( $data as $value )
                         <tr>
                             <td>{{$value->id}}</td>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <div class="avatar me-2">
-                                        <img class="avatar-img img-fluid"
-                                                src="/assets/img/illustrations/profiles/profile-2.png" />
-                                            </div>
-                                            {{$value->name}}
+                                            {{$value->nome}}
                                 </div>
                             </td>
-                            <td>{{$value->email}}</td>
+                            <td>{{$value->conta}}</td>
+                            <td>{{$value->agencia}}</td>
+                            <td>{{$value->tipo}}</td>
                             <td>{{$value->created_at}}</td>
                             <td>
                                 <a class="btn btn-datatable btn-icon btn-transparent-dark" href="#!"><i data-feather="eye"></i></a>
@@ -94,6 +96,6 @@
 
 
 @section('footer')
-@include('admin.layout.footer')
+@include('layout.footer')
 @endsection
 @endsection

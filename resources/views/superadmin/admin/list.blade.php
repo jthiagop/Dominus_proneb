@@ -49,6 +49,8 @@
                             <th>ID</th>
                             <th>Nome</th>
                             <th>E-mail</th>
+                            <th>Função</th>
+
                             <th>Data Criação</th>
                             <th>Ações</th>
 
@@ -59,6 +61,7 @@
                             <th>ID</th>
                             <th>Nome</th>
                             <th>E-mail</th>
+                            <th>Função</th>
                             <th>Data Criação</th>
                             <th>Ações</th>
                         </tr>
@@ -77,6 +80,7 @@
                                 </div>
                             </td>
                             <td>{{$value->email}}</td>
+                            <td>{{ $value->user_type }}</td>
                             <td>{{date(' d-m-Y H:i', strtotime($value->created_at))}}</td>
                             <td>
                                 <a class="btn btn-datatable btn-icon btn-transparent-dark" href="{{route('superadmin.edit',$value->id)}}"><i data-feather="edit"></i></a>

@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Caixa')
+@section('title', 'Editar Caixa')
 
 @section('header')
     @include('layout.header')
@@ -100,7 +100,7 @@
                                                 @foreach ($standardRelease as $registro)
                                                     <option value="{{ $registro->name }}"
                                                         {{ $registro->name == $caixa->lp ? 'selected' : '' }}>
-                                                        {{ $registro->id }} - {{ $registro->name }}
+                                                        {{ $registro->id }} - {{ $registro->name }} - {{ $registro->tipo }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -350,7 +350,7 @@
                 });
             </script>
 
-        @section('footer')
-            @include('layout.footer')
-        @endsection
-    @endsection
+@section('footer')
+    @include('layout.footer')
+@endsection
+@endsection

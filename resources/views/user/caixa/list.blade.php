@@ -44,7 +44,7 @@
                         <div class="card-body">
                             <div class="small text-muted">Entradas do mês atual</div>
                             <div class="h3">R$ {{ number_format($entrada, 2, ',', '.') }}</div>
-                            <a class="text-arrow-icon small text-teal" href="#!">
+                            <a class="text-arrow-icon small text-teal filter" data-filter="Entrada">
                                 Ver histórico de entradas
                                 <i data-feather="arrow-right"></i>
                             </a>
@@ -57,7 +57,7 @@
                         <div class="card-body">
                             <div class="small text-muted">Saídas do mês atual</div>
                             <div class="h3">R$ {{ number_format($saida, 2, ',', '.') }}</div>
-                            <a class="text-arrow-icon small text-danger" href="#!">
+                            <a class="text-arrow-icon small text-danger filter" data-filter="Saída">
                                 Ver histórico de saídas
                                 <i data-feather="arrow-right"></i>
                             </a>

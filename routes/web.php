@@ -50,7 +50,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin/matriz/standardRelease/list', [StandardReleaseController::class, 'list'])->name('standard.list');
     Route::post('/admin/matriz/standardRelease/', [StandardReleaseController::class, 'store'])->name('standard.store');
 
-
+    Route::resource('bancos', [bancoController::class]);
 });
 
 Route::group(['middleware' => 'user'], function () {
@@ -93,25 +93,14 @@ Route::group(['middleware' => 'frade'], function () {
     Route::post('/frade/caixa/index', [CaixaController::class, 'store'])->name('caixa.store');
     Route::get('/frade/caixa/index', [CaixaController::class, 'create'])->name('caixa.create');
 
-    Route::get('/frade/bancos/index', [BancoController::class, 'index'])->name('frade.banco.index');
-
-    Route::get('/frade/bancos/list', [BancoController::class, 'list'])->name('frade.banco.list');
-    Route::post('/frade/bancos/list', [BancoController::class, 'store'])->name('frade.store');
-    Route::get('/frade/bancos/create', [BancoController::class, 'create'])->name('frade.create');
-
     Route::get('/user/caixa/index', [CaixaController::class, 'index'])->name('caixa.index');
 
-    Route::get('/frade/dashboard', [DashboardController::class, 'index'])->name('frade.dashboard');
+    Route::get('/frade/dashboard', [FradeController::class, 'index'])->name('frade.dashboard');
 });
 
 
 Route::group(['middleware' => 'superadmin'], function () {
     Route::get('/superadmin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/superadmin/admin/list', [AdminController::class, 'list'])->name('superadmin.list');
-    Route::get('/superadmin/admin/add', [AdminController::class, 'add'])->name('superadmin.add');
-    Route::post('/superadmin/admin/add', [AdminController::class, 'insert'])->name('superadmin.insert');
-    Route::get('/superadmin/admin/edit/{id}', [AdminController::class, 'edit'])->name('superadmin.edit');
-    Route::post('/superadmin/admin/edit/{id}', [AdminController::class, 'update'])->name('superadmin.update');
 
     Route::delete('/admin/matriz/comapny/{id}', [CompanyController::class, 'destroy'])->name('company.destroy');
     Route::get('/admin/matriz/company/{id}/edit', [CompanyController::class, 'edit'])->name('company.edit');
@@ -120,9 +109,7 @@ Route::group(['middleware' => 'superadmin'], function () {
     Route::post('/admin/matriz/company/', [CompanyController::class, 'store'])->name('company.store');
     Route::get('/admin/matriz/company/', [CompanyController::class, 'index'])->name('company.index');
 
-    Route::get('/superadmin/matriz/subsidiary/{id}/edit', [SubsidiaryController::class, 'edit'])->name('subsidiary.edit');
-    Route::put('/superadmin/matriz/subsidiary/{id}', [SubsidiaryController::class, 'update'])->name('subsidiary.update');
-    Route::get('superadmin/matriz/subsidiary/list', [SubsidiaryController::class, 'list'])->name('subsidiary.list');
-    Route::get('superadmin/matriz/subsidiary/create', [SubsidiaryController::class, 'create'])->name('subsidiary.create');
-    Route::post('superadmin/matriz/subsidiary', [SubsidiaryController::class, 'store'])->name('subsidiary.store');
-});
+    Route::resource('superadmin', AdminController::class);
+
+    Route::resource('subsidiary', SubsidiaryController::class);
+}) ;

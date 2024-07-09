@@ -1,14 +1,17 @@
-@extends('layout.app')
+@extends('admin.layout.app')
 
-@section('title', 'Matriz')
+@section('title', 'Cadastro de Banco')
 
 @section('header')
-    @include('layout.header')
+    @include('admin.layout.header')
 @endsection
 
 @section('lateral')
-    @include('layout.lateral')
+    @include('admin.layout.lateral')
 @endsection
+
+
+@section('content')
 
 
 @section('content')
@@ -18,7 +21,7 @@
         <!-- Custom page header alternative example-->
         <div class="d-flex justify-content-between align-items-sm-center flex-column flex-sm-row mb-4">
             <div class="me-4 mb-3 mb-sm-0">
-                <h1 class="mb-0">{{ $getRecord->first()->subsidiaries_name }}</h1>
+                <h1 class="mb-0"></h1>
                 <div class="small">
                     <span class="fw-500 text-primary">{{$diaDaSemanaPorExtenso}}</span>
                     &middot; {{$dataPorExtenso}} &middot; {{$hora}}

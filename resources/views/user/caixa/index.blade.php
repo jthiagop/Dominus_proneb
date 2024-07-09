@@ -88,8 +88,6 @@
                                     </div>
                                     <!-- Form Row        -->
                                     <div class="row gx-3 mb-3">
-
-
                                         <!-- Form Group (first name)-->
                                         <div class="col-md-4">
                                             <label class="small mb-1" for="inputFirstName">Data do
@@ -112,8 +110,7 @@
                                             <select id="select-beast" name="lp" placeholder="Digite o que procura..."
                                                 autocomplete="off">
                                                 @foreach ($getRecord as $registro)
-                                                    <option value="{{ $registro->name }}">{{ $registro->id }} -
-                                                        {{ $registro->name }}</option>
+                                                    <option value="{{ $registro->name }}">{{ $registro->id }} - {{ $registro->name }} - {{ $registro->tipo }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -200,9 +197,8 @@
                     </div>
                     <div class="card-header border-bottom">
                         <!-- Dashboard card navigation-->
-                        <button class="btn btn-success mb-2 btn-lg" type="submit"><i class="mx-1"
-                                data-feather="save">
-                            </i>Lançar</button>
+                        <button class="btn btn-success" type="submit"><i class="mx-1" data-feather="save"></i>Lançar</button>
+                        <a class="btn btn-warning" href="{{ route('user.caixa.list') }}" role="button"><i class="mx-1" data-feather="search"></i>Buscar</a>
                     </div>
                 </div>
         </form>

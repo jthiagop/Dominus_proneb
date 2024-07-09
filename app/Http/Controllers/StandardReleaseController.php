@@ -10,9 +10,7 @@ class StandardReleaseController extends Controller
 {
 
     public function list(StandardRelease $standardRelease){
-
-        $data = $standardRelease->all();
-
+        $data = $standardRelease->orderBy('id', 'desc')->get();
         return view('admin.matriz.standardRelease.list', compact('data'));
     }
 

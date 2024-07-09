@@ -49,7 +49,7 @@
                             <th>ID</th>
                             <th>Descrição</th>
                             <th>Tipo</th>
-                            <th>usuário</th>
+                            <th>Data Criação</th>
                             <th>Ações</th>
 
                         </tr>
@@ -64,7 +64,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ( $data as $value )
+                        @foreach ( $data->sortByDesc('id') as $value )
                         <tr>
                             <td>{{$value->id}}</td>
                             <td>
