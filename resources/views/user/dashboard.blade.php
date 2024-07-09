@@ -74,7 +74,7 @@
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
                                 <div class="small fw-bold text-warning mb-1">Conta Bancária</div>
-                                <div class="h5">R$ 11,291</div>
+                                <div class="h5">R$ {{ number_format($valorbanco, 2, ',', '.') }}</div>
                                 <div class="text-xs fw-bold text-warning d-inline-flex align-items-center">
                                     <i class="me-1" data-feather="trending-up"></i>
                                     12%
@@ -91,8 +91,8 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <div class="small fw-bold text-info mb-1">Conta Poupança</div>
-                                <div class="h5">R$ 1,23</div>
+                                <div class="small fw-bold text-info mb-1">Conta Aplicação</div>
+                                <div class="h5">R$ 0</div>
                                 <div class="text-xs fw-bold text-danger d-inline-flex align-items-center">
                                     <i class="me-1" data-feather="trending-down"></i>
                                     1%

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\caixa;
+use App\Models\LancBanco;
 use App\Models\User;
 use Carbon\Carbon;
 use DateTime;
@@ -49,11 +50,17 @@ class UserController extends Controller
         $valorEndrada = caixa::getCaixaEntrada();
         $valorSaida = caixa::getCaixaSaida();
 
+        list($somaEntradas, $somaSaida) = LancBanco::getBanco();
+
+            $valorbanco = $somaEntradas - $somaSaida;
+
 
         return view('user.dashboard', array_merge($company,
                     [
                         'valorEndrada' => $valorEndrada,
-                        'valorSaida' => $valorSaida
+                        'valorSaida' => $valorSaida,
+
+                        'valorbanco' => $valorbanco,
                     ], compact('dataPorExtenso', 'hora', 'diaDaSemanaPorExtenso', 'user')));
     }
 

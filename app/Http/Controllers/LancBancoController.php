@@ -33,6 +33,8 @@ class LancBancoController extends Controller
 
             $valor = $somaEntradas - $somaSaida;
 
+
+
             return view('user.banco.list', compact('lancBanco'))->with(['valor' => $valor, 'saida' => $somaSaida, 'entrada' => $somaEntradas]);
 
     }
